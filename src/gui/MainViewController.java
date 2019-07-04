@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
@@ -44,7 +45,7 @@ public class MainViewController implements Initializable {
 	}
 
 	@FXML
-	public void onMenuIteAboutAction() {
+	public void onMenuItemAboutAction() {
 		loadView("/gui/About.fxml", x -> {});
 	}
 
@@ -72,9 +73,10 @@ public class MainViewController implements Initializable {
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
 			
+			
 			//Estas duas linhas vão executar a função que você passar como argumento
 			//Por exemplo no método onMenuItemDepartmentAction
-			
+			//class252
 			T controller = loader.getController();
 			initializingAction.accept(controller);
 
