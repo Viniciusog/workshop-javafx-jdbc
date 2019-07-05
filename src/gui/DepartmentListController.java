@@ -48,7 +48,9 @@ public class DepartmentListController implements Initializable{
 	@FXML
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		createDialogForm("/gui/DepartmentForm.fxml", parentStage);
+		Department obj = new Department();
+		//Nome do objeto do departamento, nome da tela que vou carregar e o Stage da tela atual
+		createDialogForm(obj, "/gui/DepartmentForm.fxml", parentStage);
 	}
 	
 	//Forma certa de injetar dependencia 
@@ -83,10 +85,16 @@ public class DepartmentListController implements Initializable{
 		
 	}
 	
-	private void createDialogForm(String absoluteName, Stage parentStage) {
+	private void createDialogForm(Department obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
+			
+			//Pegar o controlador da tela que eu acabei de carregar, que no caso é o DepartmentForm.fxml
+			//Depois carregar os dados do objeto (No caso o obj) no formulario
+			DepartmentFormController controller = loader.getController();
+			controller.setDepartment(obj);
+			controller.updateFormData();
 			
 			/*Função para carregar a janela do formulario para preencher um novo departamento*/
 			
