@@ -94,6 +94,7 @@ public class DepartmentListController implements Initializable{
 			//Depois carregar os dados do objeto (No caso o obj) no formulario
 			DepartmentFormController controller = loader.getController();
 			controller.setDepartment(obj);
+			controller.setDepartmentService(new DepartmentService());
 			controller.updateFormData();
 			
 			/*Função para carregar a janela do formulario para preencher um novo departamento*/
@@ -108,7 +109,8 @@ public class DepartmentListController implements Initializable{
 			dialogStage.initModality(Modality.WINDOW_MODAL); 
 			dialogStage.showAndWait();
 			
-		} catch(IOException e) {
+		} 
+		 catch(IOException e) {
 			Alerts.showAlert("IO Exception", "Erro loading view", e.getMessage(), AlertType.ERROR);
 		}
 	}
