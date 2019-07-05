@@ -76,13 +76,11 @@ public class DepartmentFormController implements Initializable {
 			service.saveOrUpdate(entity);
 			notifyDataChangeListeners();
 			Utils.currentStage(event).close(); // Fecha a janela atual
-		} 
-		catch (ValidationException e) {
+		} catch (ValidationException e) {
 			setErrorMessage(e.getErrors());
 			// chama o método setErrorMessage passando como argumento o e.getErrors()
 			// que vai ser a coleção de erros
-		} 
-		catch (DbException e) {
+		} catch (DbException e) {
 			Alerts.showAlert("Error saving object", null, e.getMessage(), AlertType.ERROR);
 		}
 	}
@@ -126,6 +124,12 @@ public class DepartmentFormController implements Initializable {
 		Constraints.setTextFieldInteger(txtId);
 		Constraints.setTextFieldMaxLength(txtName, 30);
 	}
+
+	// Coloca os dados do Departamento nos campos de texto. Se estiver inserindo
+	// o departamento será nulo e por isto os dados não apareçerão nos campos de
+	// texto,
+	// A não ser que você esteja editando, neste caso os dados serão pegos do
+	// departamento já existente
 
 	public void updateFormData() {
 		if (entity == null) {
