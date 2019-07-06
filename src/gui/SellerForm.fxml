@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane prefHeight="257.0" prefWidth="431.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1">
+<AnchorPane prefHeight="257.0" prefWidth="431.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SellerFormController">
    <children>
       <GridPane layoutX="14.0" layoutY="16.0" prefHeight="232.0" prefWidth="368.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="16.0">
         <columnConstraints>
@@ -59,12 +58,12 @@
                   <Insets left="5.0" />
                </GridPane.margin>
             </Label>
-            <TextField editable="false" GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="txtId" editable="false" GridPane.columnIndex="1" />
+            <TextField fx:id="txtName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txtBirthDate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="txtBaseSalary" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="txtDepartmentId" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label prefHeight="17.0" prefWidth="80.0" textFill="#fc0202" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Label textFill="#fc0202" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Label textFill="#fc0202" GridPane.columnIndex="2" GridPane.rowIndex="3" />
@@ -72,8 +71,8 @@
             <Label textFill="#fc0202" GridPane.columnIndex="2" GridPane.rowIndex="5" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Save" />
-                  <Button mnemonicParsing="false" text="Cancel" />
+                  <Button fx:id="btSave" mnemonicParsing="false" onAction="#onBtSaveAction" prefHeight="25.0" prefWidth="50.0" text="Save" />
+                  <Button fx:id="btCancel" mnemonicParsing="false" onAction="#onBtCancelAction" text="Cancel" />
                </children>
             </HBox>
          </children>
