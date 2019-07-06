@@ -101,6 +101,7 @@ public class SellerDaoJDBC implements SellerDao {
 			
 			st.executeUpdate();
 		}
+		
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}
@@ -129,6 +130,7 @@ public class SellerDaoJDBC implements SellerDao {
 			}
 			return null;
 		}
+		
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}

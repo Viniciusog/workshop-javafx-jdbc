@@ -37,7 +37,7 @@ public class DepartmentListController implements Initializable, DataChangeListen
 	private DepartmentService service;
 	@FXML
 	private TableView<Department> tableViewDepartment;
-
+	
 	// Tipo da table e o tipo da coluna desejada
 	@FXML
 	private TableColumn<Department, Integer> tableColumnId;
@@ -74,7 +74,7 @@ public class DepartmentListController implements Initializable, DataChangeListen
 	public void initialize(URL url, ResourceBundle rb) {
 		initializeNodes();
 	}
-
+	
 	private void initializeNodes() {
 		tableColumnEDIT.setStyle("-fx-alignment: CENTER");
 
