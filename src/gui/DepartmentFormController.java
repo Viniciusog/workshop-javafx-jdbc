@@ -108,7 +108,6 @@ public class DepartmentFormController implements Initializable {
 		}
 		return obj;
 	}
-
 	@FXML
 	public void onBtCancelOption(ActionEvent event) {
 		Utils.currentStage(event).close(); // Fecha a janela atual

@@ -27,7 +27,7 @@
             <TableColumn fx:id="tableColumnEmail" prefWidth="109.0" text="Email" />
             <TableColumn fx:id="tableColumnBirthDate" prefWidth="115.0" text="BirthDate" />
             <TableColumn fx:id="tableColumnBaseSalary" prefWidth="115.0" text="BaseSalary" />
-            <TableColumn fx:id="tableColumnDepartmentId" prefWidth="118.0" text="DepartmentId" />
+            <TableColumn fx:id="tableColumnDepartmentName" prefWidth="118.0" text="DepartmentName" />
         </columns>
       </TableView>
    </children>

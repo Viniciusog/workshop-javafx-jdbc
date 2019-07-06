@@ -130,14 +130,14 @@ public class DepartmentListController implements Initializable, DataChangeListen
 			// Enquanto você não fechar esta janela, vc n poderá acessar a janela anterior
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.showAndWait();
-
+			
 		}
-		
+	
 		catch (IOException e) {
 			Alerts.showAlert("IO Exception", "Erro loading view", e.getMessage(), AlertType.ERROR);
 		}
 	}
-
+	
 	// Quando evento for disparado, será executado o método updataTableView
 	@Override
 	public void onDataChanged() {
