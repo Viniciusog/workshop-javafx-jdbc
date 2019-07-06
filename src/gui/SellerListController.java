@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -28,9 +29,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Department;
 import model.entities.Seller;
+import model.services.DepartmentService;
 import model.services.SellerService;
 
-public class SellerListController implements Initializable {
+public class SellerListController implements Initializable, DataChangeListener {
 
 	private SellerService service;
 
@@ -54,7 +56,7 @@ public class SellerListController implements Initializable {
 
 	@FXML
 	private TableColumn<Seller, Department> tableColumnDepartmentName;
-	
+
 	@FXML
 	private Button btNew;
 
@@ -111,7 +113,7 @@ public class SellerListController implements Initializable {
 				if (department == null) {
 					setText(null);
 				} else {
-					//Formatando o valor do department para aparecer apenas o nome
+					// Formatando o valor do department para aparecer apenas o nome
 					setText(department.getName());
 				}
 			}
@@ -129,22 +131,25 @@ public class SellerListController implements Initializable {
 				if (date == null) {
 					setText(null);
 				} else {
-					//Formatando a data em Dia, Mês e Ano
+					// Formatando a data em Dia, Mês e Ano
 					setText(sdf.format(date));
 				}
 			}
 		});
 	}
-	
+
 	private void createDialogForm(Seller obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
-			
+
 			SellerFormController controller = loader.getController();
 			controller.setSeller(obj);
+			controller.setSellerService(new SellerService());
+			controller.setDepartmentService(new DepartmentService());
+			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
-			
+
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Enter Seller Data");
 			dialogStage.setScene(new Scene(pane));
@@ -152,10 +157,14 @@ public class SellerListController implements Initializable {
 			dialogStage.initOwner(parentStage);
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.showAndWait();
-			
-		} catch(IOException e ) {
+
+		} catch (IOException e) {
 			Alerts.showAlert("IO Exception", null, e.getMessage(), AlertType.ERROR);
-			
 		}
+	}
+
+	@Override
+	public void onDataChanged() {
+		updateTableView();
 	}
 }

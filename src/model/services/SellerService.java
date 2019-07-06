@@ -14,5 +14,17 @@ public class SellerService {
 	public List<Seller> findAll() {
 		return dao.findAll();
 	}
+	
+	public void saveOrUpdate(Seller obj) {
+		//Significa que estamos inserindo um Seller
+		if(obj.getId() == null) {
+			dao.insert(obj);
+		} else {
+			//Significa que estamos editando um Seller
+			dao.update(obj);
+		}
+		
+	}
+	
 
 }

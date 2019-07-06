@@ -37,7 +37,7 @@ public class DepartmentListController implements Initializable, DataChangeListen
 	private DepartmentService service;
 	@FXML
 	private TableView<Department> tableViewDepartment;
-	
+
 	// Tipo da table e o tipo da coluna desejada
 	@FXML
 	private TableColumn<Department, Integer> tableColumnId;
@@ -74,7 +74,7 @@ public class DepartmentListController implements Initializable, DataChangeListen
 	public void initialize(URL url, ResourceBundle rb) {
 		initializeNodes();
 	}
-	
+
 	private void initializeNodes() {
 		tableColumnEDIT.setStyle("-fx-alignment: CENTER");
 
@@ -95,13 +95,14 @@ public class DepartmentListController implements Initializable, DataChangeListen
 
 		// Carregando itens e mostrando na table view
 		List<Department> list = service.findAll();
+		
 		obsList = FXCollections.observableArrayList(list);
 		tableViewDepartment.setItems(obsList);
 		initEditButtons(); // Chama o método de criação dos botões
-		initRemoveButtons(); 
+		initRemoveButtons();
 
 	}
-	
+
 	private void createDialogForm(Department obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
@@ -130,14 +131,14 @@ public class DepartmentListController implements Initializable, DataChangeListen
 			// Enquanto você não fechar esta janela, vc n poderá acessar a janela anterior
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.showAndWait();
-			
+
 		}
-	
+
 		catch (IOException e) {
 			Alerts.showAlert("IO Exception", "Erro loading view", e.getMessage(), AlertType.ERROR);
 		}
 	}
-	
+
 	// Quando evento for disparado, será executado o método updataTableView
 	@Override
 	public void onDataChanged() {
@@ -182,8 +183,8 @@ public class DepartmentListController implements Initializable, DataChangeListen
 			}
 		});
 	}
-	
-	//Operação pra remover uma entidade
+
+	// Operação pra remover uma entidade
 	private void removeEntity(Department obj) {
 		Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure to delete?");
 
