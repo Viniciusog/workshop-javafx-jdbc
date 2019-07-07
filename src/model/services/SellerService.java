@@ -23,7 +23,10 @@ public class SellerService {
 			//Significa que estamos editando um Seller
 			dao.update(obj);
 		}
-		
+	}
+	
+	public void remove(Seller obj) {
+		dao.deleteById(obj.getId());
 	}
 	
 
