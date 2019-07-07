@@ -14,13 +14,19 @@ import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.util.Callback;
 import model.entities.Department;
 import model.entities.Seller;
 import model.exceptions.ValidationException;
@@ -68,9 +74,15 @@ public class SellerFormController implements Initializable {
 	@FXML
 	private Label labelErrorDepartmentId;
 
+	@FXML
+	private ComboBox<Department> comboBoxDepartment;
+
+	ObservableList<Department> obsList;
+
 	private Seller entity;
 	private SellerService sellerService;
 	private DepartmentService departmentService;
+	private Department departmentItemSelected;
 
 	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 
@@ -105,10 +117,10 @@ public class SellerFormController implements Initializable {
 		}
 		try {
 			entity = getFormData();
-			sellerService.saveOrUpdate(entity); // Salva no banco de dados	
+			sellerService.saveOrUpdate(entity); // Salva no banco de dados
 			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
-			
+
 		} catch (DbException e) {
 			Alerts.showAlert("Error saving object", null, e.getMessage(), AlertType.ERROR);
 		} catch (ValidationException e) {
@@ -125,6 +137,11 @@ public class SellerFormController implements Initializable {
 	@FXML
 	public void onBtCancelAction(ActionEvent event) {
 		Utils.currentStage(event).close();
+	}
+
+	@FXML
+	public void onComboBoxAction() {
+		departmentItemSelected = comboBoxDepartment.getSelectionModel().getSelectedItem();
 	}
 
 	// Método responsável por pegar os dados do Seller nos campos de texto e
@@ -167,16 +184,12 @@ public class SellerFormController implements Initializable {
 				obj.setBaseSalary(Double.parseDouble(txtBaseSalary.getText()));
 			}
 
-			if (txtDepartmentId.getText() == null || txtDepartmentId.getText().trim().equals("")) {
-				exception.addErrors("departmentId", "Field can't be empty");
-			} else {
-				Department department = new Department();
-				department = departmentService.findById(Utils.tryParseToInt(txtDepartmentId.getText()));
-				if (department == null) {
-					exception.addErrors("departmentId", "There's no department with this id");
-				}
-				obj.setDepartment(department);
+			Department department = new Department();
+			department = departmentService.findById(departmentItemSelected.getId());
+			if (department == null) {
+				exception.addErrors("departmentId", "There's no department with this id");
 			}
+			obj.setDepartment(department);
 
 			if (exception.getErrors().size() > 0) {
 				throw exception;
@@ -191,6 +204,7 @@ public class SellerFormController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		initializeNodes();
+		insertComboBoxData();
 	}
 
 	private void initializeNodes() {
@@ -215,8 +229,20 @@ public class SellerFormController implements Initializable {
 		} else {
 			txtBaseSalary.setText("");
 		}
+		
 		if (entity.getDepartment() != null) {
-			txtDepartmentId.setText(String.valueOf(entity.getDepartment().getId()));
+			//Easy form
+			comboBoxDepartment.getSelectionModel().select(entity.getDepartment());
+			
+			/*
+			 * Hardcore form 
+			for(Department department: comboBoxDepartment.getItems()) {
+				if(entity.getDepartment().getId() == department.getId()) {
+					comboBoxDepartment.getSelectionModel().select(department);
+					break;
+				}
+			}
+			*/
 		}
 	}
 
@@ -235,8 +261,30 @@ public class SellerFormController implements Initializable {
 		if (fields.contains("baseSalary")) {
 			labelErrorBaseSalary.setText(errors.get("baseSalary"));
 		}
-		if (fields.contains("departmentId")) {
-			labelErrorDepartmentId.setText(errors.get("departmentId"));
-		}
+	}
+
+	public void insertComboBoxData() {
+		setDepartmentService(new DepartmentService());
+		/*
+		 * List<Department> list = new ArrayList<Department>(); list.add(new
+		 * Department(1, "frutas")); list.add(new Department(2, "verduras")); list.add(
+		 * new Department(3, "legumes"));
+		 * 
+		 */
+
+		List<Department> list = departmentService.findAll();
+		obsList = FXCollections.observableArrayList(list);
+		comboBoxDepartment.setItems(obsList);
+
+		Callback<ListView<Department>, ListCell<Department>> factory = lv -> new ListCell<Department>() {
+			@Override
+			protected void updateItem(Department item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty ? "" : item.getName());
+			}
+		};
+		comboBoxDepartment.setCellFactory(factory);
+		comboBoxDepartment.setButtonCell(factory.call(null));
+
 	}
 }
