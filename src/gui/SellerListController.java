@@ -11,6 +11,7 @@ import application.Main;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -58,6 +59,9 @@ public class SellerListController implements Initializable, DataChangeListener {
 	private TableColumn<Seller, Department> tableColumnDepartmentName;
 
 	@FXML
+	private TableColumn<Seller, Seller> tableColumnEDIT;
+
+	@FXML
 	private Button btNew;
 
 	private ObservableList<Seller> obsList;
@@ -101,6 +105,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 		List<Seller> list = service.findAll();
 		obsList = FXCollections.observableList(list);
 		tableViewSeller.setItems(obsList);
+		initEditButtons();
 	}
 
 	private void initDepartmentNameColumn() {
@@ -163,6 +168,25 @@ public class SellerListController implements Initializable, DataChangeListener {
 		}
 	}
 
+	private void initEditButtons() {
+		tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnEDIT.setCellFactory(param -> new TableCell<>() {
+			private final Button button = new Button("edit");
+
+			@Override
+			protected void updateItem(Seller obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(
+						event -> createDialogForm(obj, "/gui/SellerForm.fxml", Utils.currentStage(event)));
+			}
+		});
+	}
+	
 	@Override
 	public void onDataChanged() {
 		updateTableView();

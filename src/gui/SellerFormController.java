@@ -105,9 +105,10 @@ public class SellerFormController implements Initializable {
 		}
 		try {
 			entity = getFormData();
-			notifyDataChangeListeners();
 			sellerService.saveOrUpdate(entity); // Salva no banco de dados	
+			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
+			
 		} catch (DbException e) {
 			Alerts.showAlert("Error saving object", null, e.getMessage(), AlertType.ERROR);
 		} catch (ValidationException e) {
@@ -138,8 +139,6 @@ public class SellerFormController implements Initializable {
 
 			if (txtName.getText() == null || txtName.getText().trim().equals("")) {
 				exception.addErrors("name", "Field can't be empty");
-			} else if (!txtName.getText().matches("^([A-Z][a-z]+\\s?)+$")) {
-				exception.addErrors("name", "Enter a proper name");
 			} else {
 				obj.setName(txtName.getText().trim());
 			}

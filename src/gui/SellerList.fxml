@@ -8,7 +8,7 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="325.0" prefWidth="737.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SellerListController">
+<VBox prefHeight="354.0" prefWidth="871.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SellerListController">
    <children>
       <Label text="SELLER REGISTRATION">
          <padding>
@@ -28,6 +28,7 @@
             <TableColumn fx:id="tableColumnBirthDate" prefWidth="115.0" text="BirthDate" />
             <TableColumn fx:id="tableColumnBaseSalary" prefWidth="115.0" text="BaseSalary" />
             <TableColumn fx:id="tableColumnDepartmentName" prefWidth="118.0" text="DepartmentName" />
+            <TableColumn fx:id="tableColumnEDIT" prefWidth="87.0" />
         </columns>
       </TableView>
    </children>
